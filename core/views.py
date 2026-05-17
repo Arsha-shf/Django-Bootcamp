@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect 
+from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 
 def landing(request):
     if request.user.is_authenticated:
@@ -8,6 +8,8 @@ def landing(request):
     return render(request, "landing.html")
 
 def register(request):
+    if request.user.is_authenticated:
+        return redirect("/tasks/")
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
