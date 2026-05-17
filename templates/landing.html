@@ -1,0 +1,64 @@
+{% extends "todos/base.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-badge">Task Manager</div>
+    <h1 class="hero-title">Your tasks<br>Organized.</h1>
+    <p class="hero-sub">A minimal, focused space to manage what matters. No noise, no clutter.</p>
+    <div class="hero-actions">
+        <a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+        <a href="{% url 'register' %}" class="btn btn-ghost">Get Started</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_styles %}
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 70vh;
+    gap: 1.5rem;
+}
+
+.hero-badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.8rem;
+    border-radius: 999px;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+    color: var(--accent);
+    margin: 0;
+}
+
+.hero-sub {
+    font-size: 1rem;
+    color: var(--text-muted);
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+.hero-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.hero-actions .btn {
+    padding: 0.65rem 1.75rem;
+    font-size: 0.9rem;
+}
+{% endblock %}

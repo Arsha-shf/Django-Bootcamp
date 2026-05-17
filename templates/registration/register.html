@@ -1,0 +1,137 @@
+{% extends "todos/base.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-box">
+        <div class="auth-header">
+            <h1>Get started</h1>
+            <p>Create your account</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="form-errors">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" autofocus required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password1" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" name="password2" required>
+            </div>
+            <button type="submit" class="btn btn-primary full">Create Account</button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account? <a href="{% url 'login' %}">Sign In</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_styles %}
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 380px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.auth-header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.auth-header p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.form-errors {
+    background-color: rgba(192, 57, 43, 0.1);
+    border: 1px solid var(--danger);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: var(--danger);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.form-group input {
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.65rem 0.9rem;
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+    border-color: var(--text-muted);
+}
+
+.btn.full {
+    width: 100%;
+    text-align: center;
+    padding: 0.7rem;
+}
+
+.auth-footer {
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.auth-footer a {
+    color: var(--text);
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+{% endblock %}

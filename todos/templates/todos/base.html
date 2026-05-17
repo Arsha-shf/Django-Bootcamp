@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django Bootcamp{% endblock %}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --surface-2: #1a1a1a;
+            --border: #222222;
+            --text: #e8e8e8;
+            --text-muted: #666666;
+            --accent: #ffffff;
+            --danger: #c0392b;
+            --success: #27ae60;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav {
+            background-color: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .brand {
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        nav .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        nav .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        nav .nav-links a:hover {
+            color: var(--text);
+        }
+
+        nav .nav-links span {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        main {
+            flex: 1;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 2rem;
+            color: var(--accent);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+
+        .btn-primary:hover {
+            background-color: transparent;
+            color: var(--accent);
+        }
+
+        .btn-danger {
+            background-color: transparent;
+            color: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-ghost {
+            background-color: transparent;
+            color: var(--text-muted);
+            border-color: var(--border);
+        }
+
+        .btn-ghost:hover {
+            color: var(--text);
+            border-color: var(--text-muted);
+        }
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .logout-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            cursor: pointer;
+            padding: 0;
+            transition: color 0.2s;
+            font-family: inherit;
+        }
+
+        .logout-btn:hover {
+            color: var(--text);
+        }
+
+        input[type="password"]::-ms-reveal {
+            filter: invert(1);
+        }
+
+        {% block extra_styles %}{% endblock %}
+    </style>
+</head>
+<body>
+    <nav>
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'task-list' %}" class="brand">Tasks</a>
+        {% else %}
+            <a href="/" class="brand">Tasks</a>
+        {% endif %}
+        <div class="nav-links">
+            {% if request.user.is_authenticated %}
+                <span>{{ request.user.username }}</span>
+                <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        DJANGO BOOTCAMP
+        {% if request.user.is_authenticated %}
+            &mdash; {{ request.user.username|upper }}
+        {% endif %}
+    </footer>
+</body>
+</html>
