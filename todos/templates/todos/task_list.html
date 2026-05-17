@@ -1,0 +1,89 @@
+{% extends "todos/base.html" %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<h1>My Tasks</h1>
+
+<a href="#" class="btn btn-primary" style="margin-bottom: 2rem; display: inline-block;">
+    + New Task
+</a>
+
+{% if tasks %}
+    <div class="task-list">
+        {% for task in tasks %}
+        <div class="task-item {% if task.is_done %}done{% endif %}">
+            <div class="task-info">
+                <span class="task-title">{{ task.title }}</span>
+                {% if task.description %}
+                    <span class="task-desc">{{ task.description }}</span>
+                {% endif %}
+            </div>
+            <div class="task-actions">
+                <span class="task-date">{{ task.created_at|date:"M d, Y" }}</span>
+                <a href="#" class="btn btn-ghost">Edit</a>
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p style="color: var(--text-muted);">No tasks yet. Add one above.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block extra_styles %}
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.task-item {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.2s;
+}
+
+.task-item:hover {
+    border-color: #333;
+}
+
+.task-item.done .task-title {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.task-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.task-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.task-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.task-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.task-date {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+{% endblock %}
