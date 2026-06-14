@@ -1,0 +1,127 @@
+{% extends "todos/base.html" %}
+
+{% block title %}New Task{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-box">
+        <div class="form-header">
+            <h1>New Task</h1>
+            <p>What do you need to get done?</p>
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            {% if form.errors %}
+                <div class="form-errors">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" name="title" value="{{ form.title.value|default:'' }}" maxlength="100" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Description <span class="optional">(optional)</span></label>
+                <textarea name="description" maxlength="500" rows="4">{{ form.description.value|default:'' }}</textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Create Task</button>
+                <a href="{% url 'task-list' %}" class="btn btn-ghost">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_styles %}
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 520px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.form-header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.form-header p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.form-errors {
+    background-color: rgba(192, 57, 43, 0.1);
+    border: 1px solid var(--danger);
+    border-radius: 4px;
+    padding: 0.75rem 1rem;
+    font-size: 0.8rem;
+    color: var(--danger);
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.optional {
+    text-transform: none;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    opacity: 0.6;
+}
+
+.form-group input,
+.form-group textarea {
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.65rem 0.9rem;
+    color: var(--text);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    font-family: inherit;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--text-muted);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+{% endblock %}
