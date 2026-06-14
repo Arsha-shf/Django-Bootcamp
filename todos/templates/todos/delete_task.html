@@ -1,0 +1,85 @@
+{% extends "todos/base.html" %}
+
+{% block title %}Delete Task{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-box">
+        <div class="form-header">
+            <h1>Delete Task</h1>
+            <p>This action cannot be undone.</p>
+        </div>
+
+        <div class="task-preview">
+            <span class="task-preview-title">{{ task.title }}</span>
+            {% if task.description %}
+                <span class="task-preview-desc">{{ task.description }}</span>
+            {% endif %}
+        </div>
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                <a href="{% url 'task-list' %}" class="btn btn-ghost">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_styles %}
+.form-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 2rem;
+}
+
+.form-box {
+    width: 100%;
+    max-width: 520px;
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+}
+
+.form-header h1 {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+}
+
+.form-header p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.task-preview {
+    background-color: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.task-preview-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.task-preview-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+{% endblock %}

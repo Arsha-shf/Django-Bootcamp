@@ -1,3 +1,4 @@
+
 import pytest
 from django.urls import reverse
 from django.contrib.auth.models import User
@@ -60,6 +61,15 @@ class TestTaskListView:
         response = client.get(reverse("task-list"))
         assert response.context["tasks"].count() == 0
 
+    def test_task_list_ordered_newest_first(self, client):
+        user = User.objects.create_user(username="orderuser", password="pass1234")
+        client.login(username="orderuser", password="pass1234")
+        Task.objects.create(title="First Task", user=user)
+        Task.objects.create(title="Second Task", user=user)
+        response = client.get(reverse("task-list"))
+        tasks = list(response.context["tasks"])
+        assert tasks[0].title == "Second Task"
+        assert tasks[1].title == "First Task"
 
 @pytest.mark.django_db
 class TestRegisterView:
